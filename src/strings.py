@@ -1,6 +1,6 @@
-from custom_utils import markings
-import validate as validate
-from negative_sign_handle import wrap_negative_facts_in_brackets
+from src.custom_utils import markings
+from src import validate as validate
+from src.negative_sign_handle import wrap_negative_facts_in_brackets
 
 
 class String:

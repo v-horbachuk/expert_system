@@ -1,5 +1,5 @@
 import re
-from strings import RuleString
+from src.strings import RuleString
 
 
 def is_bad_string(string, bad_pattern=None):

@@ -1,6 +1,6 @@
-from strings import String
-from facts import Fact
-from custom_utils import markings
+from src.strings import String
+from src.facts import Fact
+from src.custom_utils import markings
 
 
 class RightEquationPart:

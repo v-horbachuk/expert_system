@@ -1,6 +1,6 @@
 import os
-from exceptions import NoContentError
-from output import bold_red
+from src.exceptions import NoContentError
+from src.output import bold_red
 
 
 def check_empty(data):

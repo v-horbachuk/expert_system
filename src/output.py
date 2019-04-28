@@ -1,4 +1,4 @@
-from strings import QueryString, InitFactString
+from src.strings import QueryString, InitFactString
 
 HEADER = '\033[95m'
 OKBLUE = '\033[94m'

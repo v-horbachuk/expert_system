@@ -1,6 +1,6 @@
-from exceptions import BadConditionError, BadStringError
-from custom_utils import markings, facts
-import re
+from src.exceptions import BadConditionError
+from src.custom_utils import markings, facts
+
 
 #---------------------------- Condition validation-------------------------------
 
