@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from src.algorithm import solve
-from src.output import print_transformed_validated_strings, bold_red, print_goals
 from src import read, validate as validate
+from src.strings import QueryString, InitFactString, BadString
 from src.exceptions import BadConditionError
 from src.get_strings import pop_bad_strings, \
     validate_initial_fact_strings, \
@@ -13,6 +13,7 @@ from src.facts import Fact, Goal
 from src.equation import Equation
 from src.custom_utils import markings
 from argparse import ArgumentParser
+from termcolor import colored
 
 
 def parse_args():
@@ -30,7 +31,7 @@ args = parse_args()
 try:
     trimmed_data = read.read_file(args.file)
 except FileNotFoundError as e:
-    exit(bold_red(e))
+    exit(colored(e, 'red'))
 
 markings_to_replace = list()
 markings_to_replace.append((markings.get('imply'), markings.get('imply_new')))
@@ -40,7 +41,7 @@ try:
     validate.check_conditions_in_trimed_data(trimmed_data, markings.get('init_fact'), markings.get('quotation'),
                                              markings.get('imply'), markings.get('bicondition'))
 except BadConditionError as e:
-    exit(bold_red(e))
+    exit(colored(e, 'red'))
 
 prepared_data = validate.markings_replace(trimmed_data, markings_to_replace)
 strings = list()
@@ -90,10 +91,30 @@ for string in valid_strings:
         equations.append(Equation(string, string_facts))
 expressions = sorted(equations, key=lambda equation: equation.left_part.known_sum, reverse=True)
 
-try:
-    solve(goal_facts=goal_facts, known_facts=known_facts, equations=equations)
-except (SyntaxError, NameError):
-    exit(bold_red('Bad file or data'))
+solve(goal_facts=goal_facts, known_facts=known_facts, equations=equations)
 
-print_transformed_validated_strings(strings)
-print_goals(goal_facts)
+print(colored("These lines were used during algorithm execution:", 'yellow'))
+rules = list()
+bad_strings = list()
+for string in strings:
+    if isinstance(string, QueryString):
+        print(colored(f"Goal facts: {string}", 'magenta'))
+    elif isinstance(string, InitFactString):
+        print(colored(f"Init facts: {string}", 'magenta'))
+    elif isinstance(string, BadString):
+        bad_strings.append(string)
+    else:
+        rules.append(string)
+
+if rules:
+    for rule in rules: print(colored(f"Rule: {rule}", 'green'))
+
+if bad_strings:
+    print(colored("\nThese lines are bad:", 'yellow'))
+    for bad in bad_strings: print(colored(f"Bad line: {bad}", 'red'))
+
+for goal in goal_facts:
+    if not goal.value:
+        print(colored(f"\n{goal.name}", 'cyan'), "is", colored(f"{goal.value}", 'red'))
+    else:
+        print(colored(f"\n{goal.name}", 'cyan'), "is", colored(f"{goal.value}", 'green'))

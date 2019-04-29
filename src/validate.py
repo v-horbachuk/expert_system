@@ -93,9 +93,6 @@ def define_rule_string(string):
     for char in string:
         if char not in conditions and char not in facts:
             return False
-    #-----------------------------
-    # if not cls.are_parenthesis_balanced(line, config.left_bracket, config.right_bracket):
-    #     return False
     #TODO test to change in to is
     brackets = []
     open_bracket = [markings.get('left_bracket')]
@@ -111,7 +108,6 @@ def define_rule_string(string):
                 return False
     if len(brackets) == 0:
         pass
-    #-----------------------------------------------------
     if check_condition(string):
         return check_rule_valid(string)
     else:
@@ -119,7 +115,6 @@ def define_rule_string(string):
 
 
 def define_query_or_fact_string(string, marking):
-    """Checks if string starts with ? or = and followed by ascii symbol"""
     marking_from_string, *facts = string
     facts = ''.join(facts)
     letter_or_empty = facts.isalpha() or facts == ''
@@ -127,6 +122,3 @@ def define_query_or_fact_string(string, marking):
         return False
     else:
         return True
-
-
-# def check_rule_type(string):

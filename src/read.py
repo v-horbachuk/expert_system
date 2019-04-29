@@ -1,7 +1,6 @@
 import os
 from src.exceptions import NoContentError
-from src.output import bold_red
-
+from termcolor import colored
 
 def check_empty(data):
     if not data:
@@ -38,6 +37,6 @@ def read_file(file_path):
     try:
         check_empty(trimmed_data)
     except NoContentError as e:
-        exit(bold_red(e))
+        exit(colored(e, 'red'))
 
     return trimmed_data
